@@ -5,30 +5,24 @@ app = Flask(__name__)
 
 @app.route("/", methods=['GET'])
 def index():
-    return jsonify({"about":"Hello, World"})
+    return jsonify({"about":"Hello World"})
 
 @app.route('/weather/<string:city>', methods=['GET'])
 def get_cityweather(city):
-    # Python program to find current  
-    # weather details of any city 
-    # using openweathermap api 
-  
-    # import required modules 
-    #import requests, json 
-    
-    # Enter your API key here 
+    if type(city) != str:
+        raise TypeError("please input strings only")
+
+    # Based on the geeksforgeeks tutorial:
+    #https://www.geeksforgeeks.org/python-find-current-weather-of-any-city-using-openweathermap-api/
+
+    # API Key
     api_key = cred_wlgbc.apiKey
     
-    # base_url variable to store url 
+    # base_url variable
     base_url = "http://api.openweathermap.org/data/2.5/weather?"
     
-    # Give city name 
-    #city_name = input("Enter city name : ") 
-    city_name = "zapopan"
-    
-    # complete_url variable to store 
-    # complete url address 
-    complete_url = base_url + "appid=" + api_key + "&q=" + city_name 
+     # complete url address 
+    complete_url = base_url + "appid=" + api_key + "&q=" + city
     
     # get method of requests module 
     # return response object 
@@ -48,10 +42,15 @@ def get_cityweather(city):
         # store the value of "main" 
         # key in variable y 
         y = x["main"] 
+        u = x["wind"]
+
+        # value of windspeed
+        wind_speed = u["speed"]
     
         # store the value corresponding 
         # to the "temp" key of y 
         current_temperature = y["temp"] 
+        current_temperature = current_temperature - 273.15
     
         # store the value corresponding 
         # to the "pressure" key of y 
@@ -71,14 +70,16 @@ def get_cityweather(city):
         weather_description = z[0]["description"] 
     
         # print following values 
-        return(" Temperature (in kelvin unit) = " +
-                        str(current_temperature) + 
+        return(" Temperature (celsius) = " +
+                        str(current_temperature) +
+            "\n description = " +
+                        str(weather_description) +             
+            "\n wind speed = " +
+                        str(wind_speed) +
             "\n atmospheric pressure (in hPa unit) = " +
                         str(current_pressure) +
             "\n humidity (in percentage) = " +
-                        str(current_humidiy) +
-            "\n description = " +
-                        str(weather_description)) 
+                        str(current_humidiy))           
     
     else: 
         #print(" City Not Found ") 
