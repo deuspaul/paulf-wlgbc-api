@@ -49,7 +49,7 @@ $ flask run
 
   <br><br>
 ## Unit Tests<br>
-The unit test for this API is really simple, it just raises a type error in case the input for the get_cityweather function is not a string.
+The unit test for this API is really simple, it just raises a type error in case the input for the get_cityweather function is not a string.<br><br>
 <img src="https://github.com/deuspaul/paulf-wlgbc-api/blob/main/media/UnitTest.PNG" alt="UnitTest">
 
 
